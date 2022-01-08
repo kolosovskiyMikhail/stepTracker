@@ -8,44 +8,47 @@ public class Main {
         StepTracker stepTracker = new StepTracker();
 
 
-        while (userInput != 0) {
-           if (userInput == 1) {
-               System.out.println("Введите месяц");
-               String month = scanner.next();
-               System.out.println("Введите день");
-               int day = scanner.nextInt();
-               while ((day <= 0) || (day > 30)) {
-                   System.out.println("Номер дня введен некорректно. Введите заново.");
-                   day = scanner.nextInt();
+        while (userInput != 4) {
+            switch(userInput) {
+                case 1:
+                    System.out.println("Введите месяц");
+                    String month = scanner.next();
+                    System.out.println("Введите день");
+                    int day = scanner.nextInt();
+                    while ((day <= 0) || (day > 30)) {
+                        System.out.println("Номер дня введен некорректно. Введите заново.");
+                        day = scanner.nextInt();
+                    }
+                    while (stepTracker.checkDay(month, day)) {
+                        System.out.println("Данные за этот день уже введены или Вы пытаетесь ввести данные из прошлого. Введите заново.");
+                        day = scanner.nextInt();
+                    }
+                    System.out.println("Введите количество шагов");
+                    int stepsCount = scanner.nextInt();
+                    while (stepsCount < 0) {
+                        System.out.println("Количество шагов введено некорректно. Введите заново.");
+                        stepsCount = scanner.nextInt();
+                    }
+                    stepTracker.daysToMonth(month, day, stepsCount);
+                    break;
 
-               }
-               while (stepTracker.checkDay(month, day)) {
-                   System.out.println("Данные за этот день уже введены или Вы пытаетесь ввести данные из прошлого. Введите заново.");
-                   day = scanner.nextInt();
-               }
-               System.out.println("Введите количество шагов");
-               int stepsCount = scanner.nextInt();
-               while (stepsCount < 0) {
-                   System.out.println("Количество шагов введено некорректно. Введите заново.");
-                   stepsCount = scanner.nextInt();
-               }
-
-               stepTracker.daysToMonth(month, day, stepsCount);
-
-           } else if  (userInput == 2) {
-               System.out.println("Введите месяц");
-               String month = scanner.next();
-               stepTracker.monthSteps(month);
-               stepTracker.maxStepsInMonth(month);
-               stepTracker.distanceKmKalInMonth(month);
-               stepTracker.bestResult(month);
-           } else if  (userInput == 3) {
-               System.out.println("Введите новую цель");
-               int newGoal = scanner.nextInt();
-               System.out.println("Теперь новая цель " + stepTracker.changeGoal(newGoal) + " шагов.");
-           } else if  (userInput == 4) {
-               break;
-           }
+                case 2:
+                    System.out.println("Введите месяц");
+                    month = scanner.next();
+                    stepTracker.monthSteps(month);
+                    stepTracker.maxStepsInMonth(month);
+                    stepTracker.distanceKmKalInMonth(month);
+                    stepTracker.bestResult(month);
+                    break;
+                case 3:
+                    System.out.println("Введите новую цель");
+                    int newGoal = scanner.nextInt();
+                    System.out.println("Теперь новая цель " + stepTracker.changeGoal(newGoal) + " шагов.");
+                    break;
+                default:
+                    System.out.println("Такой команды не существует. Введите команду из меню.");
+                    break;
+            }
 
             printMenu(); // печатем меню ещё раз перед завершением предыдущего действия
             userInput = scanner.nextInt(); // повторное считывание данных от пользователя
