@@ -9,7 +9,6 @@ public class StepTracker {
     ArrayList<Integer> checkDay;
 
 
-
     StepTracker() {
         stepsInMonth = new ArrayList<>();
         monthDay = new HashMap<>();
@@ -18,7 +17,7 @@ public class StepTracker {
     }
 
 
-   int changeGoal(int newGoal) { //Изменяем цель
+    int changeGoal(int newGoal) { //Изменяем цель
         if (newGoal > 0) {
             goal = newGoal;
         } else {
@@ -27,16 +26,17 @@ public class StepTracker {
         return goal;
     }
 
-     void saveSteps (int day, int stepsCount) { //Добавляем шаги
-            for (int i = 0; i < 30; i++) {
-                stepsInMonth.add(0);
-            }
-                stepsInMonth.add(day-1, stepsCount);
-            while (stepsInMonth.size() >30 ) {
-                stepsInMonth.remove((stepsInMonth.size() - 1));
-            }
-     }
-    void daysToMonth (String month, int day, int stepsCount) { // Сохраняем количество шагов в дни месяца
+    void saveSteps(int day, int stepsCount) { //Добавляем шаги
+        for (int i = 0; i < 30; i++) {
+            stepsInMonth.add(0);
+        }
+        stepsInMonth.add(day - 1, stepsCount);
+        while (stepsInMonth.size() > 30) {
+            stepsInMonth.remove((stepsInMonth.size() - 1));
+        }
+    }
+
+    void daysToMonth(String month, int day, int stepsCount) { // Сохраняем количество шагов в дни месяца
         if (monthDay.containsKey(month)) {
             stepsInMonth = monthDay.get(month);
             saveSteps(day, stepsCount);
@@ -47,85 +47,82 @@ public class StepTracker {
         }
     }
 
-    void monthSteps (String month){ //Выводим количество шагов по дням
+    void monthSteps(String month) { //Выводим количество шагов по дням
         int d = 0;
         System.out.println("Статистика за " + month + ":");
-
         if (!monthDay.containsKey(month)) {
             System.out.println("Такого месяца нет!");
             return;
         }
-            stepsInMonth = monthDay.get(month);
-                for (Integer st : stepsInMonth) {
-                    d ++;
-                    if (d < 30) {
-                        System.out.print(d + " день: " + st + ", ");
-                    } else {
-                        System.out.print(d + " день: " + st + ".");
-                    }
-                }
+        stepsInMonth = monthDay.get(month);
+        for (Integer st : stepsInMonth) {
+            d++;
+            if (d < 30) {
+                System.out.print(d + " день: " + st + ", ");
+            } else {
+                System.out.print(d + " день: " + st + ".");
+            }
+        }
         System.out.println();
     }
 
-    void maxStepsInMonth (String month) {  //Ищем максимальное количество шагов
+    void maxStepsInMonth(String month) {  //Ищем максимальное количество шагов
         int maxSteps = 0;
-            if (!monthDay.containsKey(month)) {
-                System.out.println("Такого месяца нет!");
-                return;
-            }
-                stepsInMonth = monthDay.get(month);
-                    for (Integer st : stepsInMonth) {
-                        if (st > maxSteps) {
-                            maxSteps = st;
-                        }
-                    }
-            System.out.println("Максимальное количество шагов - " + maxSteps);
-
-    }
-
-    void distanceKmKalInMonth (String month) { //Ищем среднее количество шагов, километры и каллории
-       int sumSteps = 0;
         if (!monthDay.containsKey(month)) {
             System.out.println("Такого месяца нет!");
             return;
         }
-                stepsInMonth = monthDay.get(month);
-                for (Integer st : stepsInMonth) {
-                    sumSteps += st;
-                    }
-            System.out.println ("Среднее количество шагов - " + sumSteps / 30);
-            System.out.println("Пройденная дистанция - " + converter.stepToKm(sumSteps) + " км");
-            System.out.println("Потрачено кКал - " + converter.calcKalor(sumSteps));
-
+        stepsInMonth = monthDay.get(month);
+        for (Integer st : stepsInMonth) {
+            if (st > maxSteps) {
+                maxSteps = st;
+            }
+        }
+        System.out.println("Максимальное количество шагов - " + maxSteps);
     }
 
-    void bestResult (String month) { //Ищем лучшую серию шагов в месяце
+    void distanceKmKalInMonth(String month) { //Ищем среднее количество шагов, километры и каллории
+        int sumSteps = 0;
+        if (!monthDay.containsKey(month)) {
+            System.out.println("Такого месяца нет!");
+            return;
+        }
+        stepsInMonth = monthDay.get(month);
+        for (Integer st : stepsInMonth) {
+            sumSteps += st;
+        }
+        System.out.println("Среднее количество шагов - " + sumSteps / 30);
+        System.out.println("Пройденная дистанция - " + converter.stepToKm(sumSteps) + " км");
+        System.out.println("Потрачено кКал - " + converter.calcKalor(sumSteps));
+    }
+
+    void bestResult(String month) { //Ищем лучшую серию шагов в месяце
         int bestCount = 0;
         int maxDays = 0;
         if (!monthDay.containsKey(month)) {
             System.out.println("Такого месяца нет!");
             return;
         }
-            stepsInMonth = monthDay.get(month);
-            for (int i = 0; i < stepsInMonth.size(); i ++) {
-                if (stepsInMonth.get(i) > goal)   {
-                    bestCount ++;
-                    if (stepsInMonth.get(i) == stepsInMonth.get(stepsInMonth.size() - 1)) {
-                        if (bestCount > maxDays) {
-                            maxDays = bestCount;
-                        }
-                    }
-                    } else {
+        stepsInMonth = monthDay.get(month);
+        for (int i = 0; i < stepsInMonth.size(); i++) {
+            if (stepsInMonth.get(i) > goal) {
+                bestCount++;
+                if (stepsInMonth.get(i) == stepsInMonth.get(stepsInMonth.size() - 1)) {
                     if (bestCount > maxDays) {
                         maxDays = bestCount;
                     }
-                    bestCount = 0;
                 }
-
+            } else {
+                if (bestCount > maxDays) {
+                    maxDays = bestCount;
+                }
+                bestCount = 0;
             }
+        }
         System.out.println("Лучшая серия дней " + maxDays);
     }
-    boolean checkDay (String month, int day) { //Проверка правильности ввода дня
+
+    boolean checkDay(String month, int day) { //Проверка правильности ввода дня
         boolean check = false;
         if (monthDay.containsKey(month)) {
             stepsInMonth = monthDay.get(month);
@@ -137,7 +134,7 @@ public class StepTracker {
         }
         for (Integer ch : checkDay) {
             if (ch >= day - 1) {
-               check = true;
+                check = true;
             }
         }
         return check;

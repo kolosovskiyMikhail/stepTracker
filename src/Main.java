@@ -8,8 +8,8 @@ public class Main {
         StepTracker stepTracker = new StepTracker();
 
 
-        while (userInput != 4) {
-            switch(userInput) {
+        while (true) {
+            switch (userInput) {
                 case 1:
                     System.out.println("Введите месяц");
                     String month = scanner.next();
@@ -31,7 +31,6 @@ public class Main {
                     }
                     stepTracker.daysToMonth(month, day, stepsCount);
                     break;
-
                 case 2:
                     System.out.println("Введите месяц");
                     month = scanner.next();
@@ -45,6 +44,9 @@ public class Main {
                     int newGoal = scanner.nextInt();
                     System.out.println("Теперь новая цель " + stepTracker.changeGoal(newGoal) + " шагов.");
                     break;
+                case 4:
+                    System.out.println("Программа завершена");
+                    return;
                 default:
                     System.out.println("Такой команды не существует. Введите команду из меню.");
                     break;
@@ -52,10 +54,7 @@ public class Main {
 
             printMenu(); // печатем меню ещё раз перед завершением предыдущего действия
             userInput = scanner.nextInt(); // повторное считывание данных от пользователя
-
         }
-        System.out.println("Программа завершена");
-
     }
 
     private static void printMenu() {
